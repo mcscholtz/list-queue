@@ -105,12 +105,47 @@ void PushPopFrontAndBack(CuTest * tc) {
 	sll_delete(list);
 }
 
+void PushPopMiddle(CuTest * tc) {
+	//create list
+	struct sll * list = sll_new();
+
+	//push some nodes
+	struct sll_node * node;
+	int val = 111;
+
+	//add node at the front
+	node = sll_new_node(&val, sizeof(val));
+	list->push_front(list, node);
+
+	val = 222;
+	node = sll_new_node(&val, sizeof(val));
+	list->push_back(list, node);
+
+	//now push behind
+	val = 333;
+	node = sll_new_node(&val, sizeof(val));
+	list->push_behind(list, list->head, node);
+	CuAssertIntEquals(tc, list->length, 3);
+	CuAssertIntEquals(tc, *(int*)list->head->next->data, 333);
+	CuAssertPtrEquals(tc, list->head->next->next, list->tail);
+
+	//now remove that item again
+	node = list->pop_behind(list, list->head);
+	CuAssertIntEquals(tc, list->length, 2);
+	CuAssertIntEquals(tc, *(int*)node->data, 333);
+	CuAssertPtrEquals(tc, node->next, NULL);
+	CuAssertPtrEquals(tc, list->head->next, list->tail);
+
+	sll_delete(list);
+}
+
 CuSuite* LinkedListSuite() {
 	CuSuite* suite = CuSuiteNew();
 	SUITE_ADD_TEST(suite, CreateList);
 	SUITE_ADD_TEST(suite, CreateIntNode);
 	SUITE_ADD_TEST(suite, CreateStringNode);
 	SUITE_ADD_TEST(suite, PushPopFrontAndBack);
+	SUITE_ADD_TEST(suite, PushPopMiddle);
 
 	return suite;
 }

@@ -7,8 +7,10 @@ struct sll {
 	int length;
 	void (*push_front)(struct sll *, struct sll_node *);
 	void (*push_back)(struct sll *, struct sll_node *);
+	void (*push_behind)(struct sll *, struct sll_node *, struct sll_node *);
 	struct sll_node * (*pop_front)(struct sll *);
 	struct sll_node * (*pop_back)(struct sll *);
+	struct sll_node * (*pop_behind)(struct sll *, struct sll_node *);
 };
 
 struct sll_node {

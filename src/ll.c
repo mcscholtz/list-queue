@@ -7,8 +7,10 @@
 //Internal functions
 static void sll_push_front(struct sll * list, struct sll_node * node);
 static void sll_push_back(struct sll * list, struct sll_node * node);
+static void sll_push_behind(struct sll * list, struct sll_node * behind, struct sll_node * node);
 static struct sll_node * sll_pop_front(struct sll * list);
 static struct sll_node * sll_pop_back(struct sll * list);
+static struct sll_node * sll_pop_behind(struct sll * list, struct sll_node * behind);
 
 struct sll * sll_new()
 {
@@ -19,8 +21,10 @@ struct sll * sll_new()
 	list->length = 0;
 	list->push_front = sll_push_front;
 	list->push_back = sll_push_back;
+	list->push_behind = sll_push_behind;
 	list->pop_front = sll_pop_front;
 	list->pop_back = sll_pop_back;
+	list->pop_behind = sll_pop_behind;
 	return list;
 }
 
@@ -85,10 +89,19 @@ static void sll_push_back(struct sll * list, struct sll_node * node)
 	list->length++;
 }
 
-//insert a node anywhere
-static void sll_insert_index(struct sll * list, struct sll_node * node, int index)
+//insert a node behind the givin node
+static void sll_push_behind(struct sll * list, struct sll_node * behind, struct sll_node * node)
 {
-	//insert @ a specific index
+	assert(list != NULL);
+	assert(behind != NULL);
+	assert(node != NULL);
+
+	if(behind == list->tail) {
+		return sll_push_back(list, node);
+	}
+	node->next = behind->next;
+	behind->next = node;
+	list->length++;
 }
 
 static struct sll_node * sll_pop_front(struct sll * list)
@@ -148,8 +161,21 @@ static struct sll_node * sll_pop_back(struct sll * list)
 	}
 }
 
-//remove any node
-static void sll_remove_index(struct sll * list, struct sll_node * node, int index)
+//return the node behind the given node
+static struct sll_node * sll_pop_behind(struct sll * list, struct sll_node * behind)
 {
-	//remove @ a specific index
+	assert(list != NULL);
+	assert(behind != NULL);
+	assert(behind->next != NULL);
+
+	struct sll_node * node = behind->next;
+	if(node == list->tail) {
+		list->tail = behind;
+	}
+
+	behind->next = node->next; //should be null in the above case that it is the tail
+	list->length--;
+	//reduce change to have acidental modification of items in the list
+	node->next = NULL;
+	return node;
 }
