@@ -1,0 +1,10 @@
+#Cmake Stuff
+CMakeFiles
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+
+#Binary output
+bin/
+lib/
+build/

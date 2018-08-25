@@ -1,0 +1,6 @@
+[submodule "cutest"]
+	path = 3rdparty/cutest
+	url = git@bitbucket.org:scholtm/cutest.git
+[submodule "3rdparty/cutest"]
+	path = 3rdparty/cutest
+	url = https://github.com/mcscholtz/cutest.git
