@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 #include "ll.h"
 
 //Internal functions
-static void sll_insert_front(struct sll * list, struct sll_node * node);
-static void sll_insert_back(struct sll * list, struct sll_node * node);
-static struct sll_node * sll_remove_front(struct sll * list);
-static struct sll_node * sll_remove_back(struct sll * list);
+static void sll_push_front(struct sll * list, struct sll_node * node);
+static void sll_push_back(struct sll * list, struct sll_node * node);
+static struct sll_node * sll_pop_front(struct sll * list);
+static struct sll_node * sll_pop_back(struct sll * list);
 
 struct sll * sll_new()
 {
@@ -16,10 +17,10 @@ struct sll * sll_new()
 	list->head = NULL;
 	list->tail = NULL;
 	list->length = 0;
-	list->insert_front = sll_insert_front;
-	list->insert_back = sll_insert_back;
-	list->remove_front = sll_remove_front;
-	list->remove_back = sll_remove_back;
+	list->push_front = sll_push_front;
+	list->push_back = sll_push_back;
+	list->pop_front = sll_pop_front;
+	list->pop_back = sll_pop_back;
 	return list;
 }
 
@@ -52,7 +53,7 @@ void sll_delete_node(struct sll_node * node) {
 	free(node);
 }
 
-static void sll_insert_front(struct sll * list, struct sll_node * node)
+static void sll_push_front(struct sll * list, struct sll_node * node)
 {
 	assert(list != NULL);
 	assert(node != NULL);
@@ -68,7 +69,7 @@ static void sll_insert_front(struct sll * list, struct sll_node * node)
 	list->length++;
 }
 
-static void sll_insert_back(struct sll * list, struct sll_node * node)
+static void sll_push_back(struct sll * list, struct sll_node * node)
 {
 	assert(list != NULL);
 	assert(node != NULL);
@@ -90,7 +91,7 @@ static void sll_insert_index(struct sll * list, struct sll_node * node, int inde
 	//insert @ a specific index
 }
 
-static struct sll_node * sll_remove_front(struct sll * list)
+static struct sll_node * sll_pop_front(struct sll * list)
 {
 	assert(list != NULL);
 	
@@ -109,12 +110,14 @@ static struct sll_node * sll_remove_front(struct sll * list)
 			list->head = node->next;
 		}
 		list->length--;
+		//reduce change to have acidental modification of items in the list
+		node->next = NULL;
 		return node;
 	}
 }
 
 //this is slow because there is only a single link
-static struct sll_node * sll_remove_back(struct sll * list)
+static struct sll_node * sll_pop_back(struct sll * list)
 {
 	assert(list != NULL);
 
@@ -139,6 +142,8 @@ static struct sll_node * sll_remove_back(struct sll * list)
 			new_tail->next = NULL;
 		}
 		list->length--;
+		//reduce change to have acidental modification of items in the list
+		node->next = NULL;
 		return node;
 	}
 }

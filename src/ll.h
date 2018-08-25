@@ -5,10 +5,10 @@ struct sll {
 	struct sll_node * head;
 	struct sll_node * tail;
 	int length;
-	void (*insert_front)(struct sll *, struct sll_node *);
-	void (*insert_back)(struct sll *, struct sll_node *);
-	struct sll_node * (*remove_front)(struct sll *);
-	struct sll_node * (*remove_back)(struct sll *);
+	void (*push_front)(struct sll *, struct sll_node *);
+	void (*push_back)(struct sll *, struct sll_node *);
+	struct sll_node * (*pop_front)(struct sll *);
+	struct sll_node * (*pop_back)(struct sll *);
 };
 
 struct sll_node {
