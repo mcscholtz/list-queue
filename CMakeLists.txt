@@ -29,7 +29,7 @@ set (TESTLIB_SOURCES
 set (TEST_SOURCE_DIR ${CMAKE_SOURCE_DIR}/tests)
 set (TEST_SOURCES 
     ${TEST_SOURCE_DIR}/tests.c
-    ${TEST_SOURCE_DIR}/ll_suite.c
+    ${TEST_SOURCE_DIR}/sll_suite.c
 )
 
 # These are the corresponding output paths

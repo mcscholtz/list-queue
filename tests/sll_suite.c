@@ -54,6 +54,7 @@ void PushPopFrontAndBack(CuTest * tc) {
 	CuAssertIntEquals(tc, *(int*)list->head->data, 111);
 	//these should be no next node
 	CuAssertPtrEquals(tc, list->head->next, NULL);
+	CuAssertPtrEquals(tc, list->tail->next, NULL);
 	//head + tail should be the same
 	CuAssertIntEquals(tc, *(int*)list->head->data, *(int*)list->tail->data);
 
@@ -139,7 +140,7 @@ void PushPopMiddle(CuTest * tc) {
 	sll_delete(list);
 }
 
-CuSuite* LinkedListSuite() {
+CuSuite* SingleLinkedListSuite() {
 	CuSuite* suite = CuSuiteNew();
 	SUITE_ADD_TEST(suite, CreateList);
 	SUITE_ADD_TEST(suite, CreateIntNode);

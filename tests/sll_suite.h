@@ -2,6 +2,6 @@
 #define LL_SUITE_H
 #include "cutest.h"
 
-CuSuite* LinkedListSuite();
+CuSuite* SingleLinkedListSuite();
 
 #endif

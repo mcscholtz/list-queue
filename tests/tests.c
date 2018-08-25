@@ -1,5 +1,5 @@
 #include "cutest.h"
-#include "ll_suite.h"
+#include "sll_suite.h"
 #include <stdio.h>
 
 CuSuite* ArgUtilGetSuite();
@@ -10,7 +10,7 @@ void RunAllTests(void) {
 	CuString *output = CuStringNew();
 	CuSuite* suite = CuSuiteNew();
 
-	CuSuiteAddSuite(suite, LinkedListSuite());
+	CuSuiteAddSuite(suite, SingleLinkedListSuite());
 
 	CuSuiteRun(suite);
 	CuSuiteSummary(suite, output);
