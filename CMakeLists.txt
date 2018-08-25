@@ -19,6 +19,7 @@ endif()
 set (PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set (LL_SOURCES 
     ${PROJECT_SOURCE_DIR}/sll.c
+    ${PROJECT_SOURCE_DIR}/dll.c
 )
 
 set (TESTLIB_SOURCE_DIR ${CMAKE_SOURCE_DIR}/3rdparty/cutest)
@@ -30,6 +31,7 @@ set (TEST_SOURCE_DIR ${CMAKE_SOURCE_DIR}/tests)
 set (TEST_SOURCES 
     ${TEST_SOURCE_DIR}/tests.c
     ${TEST_SOURCE_DIR}/sll_suite.c
+    ${TEST_SOURCE_DIR}/dll_suite.c
 )
 
 # These are the corresponding output paths
