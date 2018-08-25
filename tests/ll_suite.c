@@ -13,10 +13,10 @@ void PushBackPopFrontTest(CuTest *tc);
 void PushBackPopBackTest(CuTest *tc);
 
 //Internal Functions
-struct sll * ConstructByPushBack(uint32_t len, CuTest *tc);
+struct sll * ConstructByPushBack(CuTest *tc, uint32_t len);
 
 //Construct a list with dummy data
-struct sll * ConstructByPushBack(uint32_t len, CuTest *tc)
+struct sll * ConstructByPushBack(CuTest *tc, uint32_t len)
 {
 	//create empy list
 	struct sll * list = sll_new();
@@ -27,7 +27,7 @@ struct sll * ConstructByPushBack(uint32_t len, CuTest *tc)
 	for(uint32_t i = 0; i < len; i++) {
 		uint32_t * data = (uint32_t *)malloc(sizeof(uint32_t));
 		*data = i;
-		node = sll_node_new(data, sizeof(uint32_t));
+		node = sll_new_node(data, sizeof(uint32_t));
 		list->insert_back(list, node);
 	}
 
@@ -40,7 +40,7 @@ struct sll * ConstructByPushBack(uint32_t len, CuTest *tc)
 //test constructed list data integrity
 void PushBackIntegrityTest(CuTest *tc)
 {
-	struct sll * list = ConstructByPushBack(LIST_LENGTH, tc);
+	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
 	struct sll_node * node;
 
 	//walk the list to validate it
@@ -59,7 +59,7 @@ void PushBackIntegrityTest(CuTest *tc)
 //validate that removing from the front of the list works
 void PushBackPopFrontTest(CuTest *tc)
 {
-	struct sll * list = ConstructByPushBack(LIST_LENGTH, tc);
+	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
 	struct sll_node * node;
 
 	//walk the list to validate it
@@ -73,7 +73,7 @@ void PushBackPopFrontTest(CuTest *tc)
 		//validate data
 		CuAssertIntEquals(tc, index, *(uint32_t *)node->data);
 		//free node
-		sll_node_delete(node);
+		sll_delete_node(node);
 		index++;
 	};
 	
@@ -89,7 +89,7 @@ void PushBackPopFrontTest(CuTest *tc)
 //validate that removing from the back of the list works
 void PushBackPopBackTest(CuTest *tc)
 {
-	struct sll * list = ConstructByPushBack(LIST_LENGTH, tc);
+	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
 	struct sll_node * node;
 
 	//walk the list to validate it
@@ -103,7 +103,7 @@ void PushBackPopBackTest(CuTest *tc)
 		//validate data
 		CuAssertIntEquals(tc, LIST_LENGTH - (index+1), *(uint32_t *)node->data);
 		//free node
-		sll_node_delete(node);
+		sll_delete_node(node);
 		index++;
 	};
 	

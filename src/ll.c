@@ -2,12 +2,6 @@
 #include <string.h>
 #include <assert.h>
 #include "ll.h"
-//Core linked list library that can be used for implementing:
-//list
-//stack
-//queue
-//skip list??
-//hash table
 
 //Internal functions
 static void sll_insert_front(struct sll * list, struct sll_node * node);
@@ -17,7 +11,7 @@ static struct sll_node * sll_remove_back(struct sll * list);
 
 struct sll * sll_new()
 {
-	struct sll * list = malloc(sizeof(struct sll));
+	struct sll * list = (struct sll*)malloc(sizeof(struct sll));
 	assert(list != NULL);
 	list->head = NULL;
 	list->tail = NULL;
@@ -36,14 +30,14 @@ void sll_delete(struct sll * list)
 	while (node != NULL) {
 		next = node->next;
 		node->next = NULL;
-		sll_node_delete(node);
+		sll_delete_node(node);
 		node = next;
 	} 
 }
 
-struct sll_node * sll_node_new(void * data, int length)
+struct sll_node * sll_new_node(void * data, int length)
 {
-	struct sll_node * node = malloc(sizeof(struct sll));
+	struct sll_node * node = (struct sll_node *)malloc(sizeof(struct sll));
 	node->next = NULL;
 	node->data = malloc(length);
 	assert(node->data != NULL);
@@ -51,7 +45,7 @@ struct sll_node * sll_node_new(void * data, int length)
 	return node;
 }
 
-void sll_node_delete(struct sll_node * node) {
+void sll_delete_node(struct sll_node * node) {
 	assert(node != NULL);
 	assert(node->data != NULL);
 	free(node->data);

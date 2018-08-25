@@ -17,7 +17,7 @@ struct sll_node {
 };
 
 struct sll * sll_new();
-struct sll_node * sll_node_new(void * data, int length);
+struct sll_node * sll_new_node(void * data, int length);
 void sll_delete(struct sll * list);
-void sll_node_delete(struct sll_node * node);
+void sll_delete_node(struct sll_node * node);
 #endif
