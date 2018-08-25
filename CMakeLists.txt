@@ -17,7 +17,9 @@ endif()
 
 #where to move output files
 set (PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
-set (LL_SOURCES ${PROJECT_SOURCE_DIR}/ll.c)
+set (LL_SOURCES 
+    ${PROJECT_SOURCE_DIR}/sll.c
+)
 
 set (TESTLIB_SOURCE_DIR ${CMAKE_SOURCE_DIR}/3rdparty/cutest)
 set (TESTLIB_SOURCES 

@@ -1,5 +1,5 @@
-#ifndef LL_H
-#define LL_H
+#ifndef SLL_H
+#define SLL_H
 
 struct sll {
 	struct sll_node * head;
