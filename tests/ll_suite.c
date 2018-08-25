@@ -3,123 +3,114 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
-//Constants
-const uint32_t LIST_LENGTH = 4096;
-
-//Tests
-void PushBackIntegrityTest(CuTest *tc);
-void PushBackPopFrontTest(CuTest *tc);
-void PushBackPopBackTest(CuTest *tc);
-
-//Internal Functions
-struct sll * ConstructByPushBack(CuTest *tc, uint32_t len);
-
-//Construct a list with dummy data
-struct sll * ConstructByPushBack(CuTest *tc, uint32_t len)
-{
-	//create empy list
+void CreateList(CuTest *tc) {
+	//create empty list
 	struct sll * list = sll_new();
 	CuAssertPtrNotNull(tc,list);
+	CuAssertIntEquals(tc, list->length, 0);
+	CuAssertPtrEquals(tc, list->head, list->tail);
 
-	//add dummy data to the list
-	struct sll_node * node;
-	for(uint32_t i = 0; i < len; i++) {
-		uint32_t * data = (uint32_t *)malloc(sizeof(uint32_t));
-		*data = i;
-		node = sll_new_node(data, sizeof(uint32_t));
-		list->insert_back(list, node);
-	}
-
-	//validate length
-	CuAssertIntEquals(tc, len, list->length);
-
-	return list;
-}
-
-//test constructed list data integrity
-void PushBackIntegrityTest(CuTest *tc)
-{
-	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
-	struct sll_node * node;
-
-	//walk the list to validate it
-	node = list->head;
-	uint32_t index = 0;
-	while(node) {
-		CuAssertIntEquals(tc, index, *(uint32_t *)node->data);
-		node = node->next;
-		index++;
-	};
-
-	//delete List
 	sll_delete(list);
 }
 
-//validate that removing from the front of the list works
-void PushBackPopFrontTest(CuTest *tc)
-{
-	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
-	struct sll_node * node;
+void CreateIntNode(CuTest *tc) {
+	//create empty node
+	int val = 123;
+	struct sll_node * node = sll_new_node(&val, sizeof(val));
 
-	//walk the list to validate it
-	uint32_t index = 0;
+	CuAssertPtrNotNull(tc, node);
+	CuAssertIntEquals(tc, *(int *)node->data, val);
+	CuAssertPtrEquals(tc, node->next, NULL);
 
-	while(index < LIST_LENGTH ) {
-		//pop front
-		node = list->remove_front(list);
-		//validate length
-		CuAssertIntEquals(tc, LIST_LENGTH - (index+1), list->length);
-		//validate data
-		CuAssertIntEquals(tc, index, *(uint32_t *)node->data);
-		//free node
-		sll_delete_node(node);
-		index++;
-	};
-	
-	//list should now be empty
-	CuAssertPtrEquals(tc,NULL,list->head);
-	CuAssertPtrEquals(tc,NULL,list->tail);
-	CuAssertIntEquals(tc, 0, list->length);
-
-	//delete List
-	sll_delete(list);
+	sll_delete_node(node);
 }
 
-//validate that removing from the back of the list works
-void PushBackPopBackTest(CuTest *tc)
-{
-	struct sll * list = ConstructByPushBack(tc, LIST_LENGTH);
-	struct sll_node * node;
+void CreateStringNode(CuTest *tc) {
+	//create empty node
+	char string[] = "this is a string node";
+	struct sll_node * node = sll_new_node(&string, sizeof(string));
 
-	//walk the list to validate it
-	uint32_t index = 0;
-
-	while(index < LIST_LENGTH) {
-		//pop front
-		node = list->remove_back(list);
-		//validate length
-		CuAssertIntEquals(tc, LIST_LENGTH - (index+1), list->length);
-		//validate data
-		CuAssertIntEquals(tc, LIST_LENGTH - (index+1), *(uint32_t *)node->data);
-		//free node
-		sll_delete_node(node);
-		index++;
-	};
+	CuAssertPtrNotNull(tc, node);
+	CuAssertIntEquals(tc, strcmp(string, (char *)node->data), 0);
+	CuAssertPtrEquals(tc, node->next, NULL);
 	
-	//list should now be empty
-	CuAssertPtrEquals(tc,NULL,list->head);
-	CuAssertPtrEquals(tc,NULL,list->tail);
-	CuAssertIntEquals(tc, 0, list->length);
+	sll_delete_node(node);
+}
 
-	//delete List
+void PushPopFrontAndBack(CuTest * tc) {
+	//create list
+	struct sll * list = sll_new();
+
+	//push some nodes
+	struct sll_node * node;
+	int val = 111;
+
+	//add node at the front
+	node = sll_new_node(&val, sizeof(val));
+	list->push_back(list, node);
+	CuAssertIntEquals(tc, list->length, 1);
+	CuAssertIntEquals(tc, *(int*)list->head->data, 111);
+	//these should be no next node
+	CuAssertPtrEquals(tc, list->head->next, NULL);
+	//head + tail should be the same
+	CuAssertIntEquals(tc, *(int*)list->head->data, *(int*)list->tail->data);
+
+	//add another node to the front
+	val = 222;
+	node = sll_new_node(&val, sizeof(val));
+	list->push_front(list, node);
+	CuAssertIntEquals(tc, list->length, 2);
+	CuAssertPtrEquals(tc, list->head->next, list->tail);
+	CuAssertIntEquals(tc, *(int*)list->head->data, 222);
+	CuAssertIntEquals(tc, *(int*)list->tail->data, 111);
+
+	//add a node to the back
+	val = 333;
+	node = sll_new_node(&val, sizeof(val));
+	list->push_back(list, node);
+	CuAssertIntEquals(tc, list->length, 3);
+	CuAssertIntEquals(tc, *(int*)list->head->data, 222);
+	CuAssertIntEquals(tc, *(int*)list->tail->data, 333);
+
+	//remove front
+	node = list->pop_front(list);
+	CuAssertIntEquals(tc, list->length, 2);
+	CuAssertPtrEquals(tc, list->head->next, list->tail);
+	CuAssertIntEquals(tc, *(int*)list->head->data, 111);
+	CuAssertIntEquals(tc, *(int*)node->data, 222);
+	CuAssertPtrEquals(tc, node->next, NULL);
+	sll_delete_node(node);
+
+	//remove back
+	node = list->pop_back(list);
+	CuAssertIntEquals(tc, list->length, 1);
+	CuAssertPtrEquals(tc, list->head->next, NULL);
+	CuAssertPtrEquals(tc, list->tail->next, NULL);
+	CuAssertPtrEquals(tc, list->tail, list->head);
+	CuAssertIntEquals(tc, *(int*)node->data, 333);
+	CuAssertPtrEquals(tc, node->next, NULL);
+	sll_delete_node(node);
+
+	//remove last node
+	node = list->pop_back(list);
+	CuAssertIntEquals(tc, list->length, 0);
+	CuAssertPtrEquals(tc, list->head, NULL);
+	CuAssertPtrEquals(tc, list->tail, NULL);
+	CuAssertPtrEquals(tc, list->tail, list->head);
+	CuAssertIntEquals(tc, *(int*)node->data, 111);
+	CuAssertPtrEquals(tc, node->next, NULL);
+	sll_delete_node(node);
 	sll_delete(list);
 }
 
 CuSuite* LinkedListSuite() {
 	CuSuite* suite = CuSuiteNew();
-	SUITE_ADD_TEST(suite, PushBackIntegrityTest);
-	SUITE_ADD_TEST(suite, PushBackPopFrontTest);
-	SUITE_ADD_TEST(suite, PushBackPopBackTest);
+	SUITE_ADD_TEST(suite, CreateList);
+	SUITE_ADD_TEST(suite, CreateIntNode);
+	SUITE_ADD_TEST(suite, CreateStringNode);
+	SUITE_ADD_TEST(suite, PushPopFrontAndBack);
+
 	return suite;
 }
