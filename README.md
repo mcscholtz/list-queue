@@ -33,4 +33,5 @@ The code is made to be as generic as possible. When actually using it I suggest 
 ## Todo
 - [x] Add singly linked list
 - [x] Add tests for single linked list
-- [ ] Implement doubly linked list
+- [x] Add doubly linked list
+- [x] Add tests for doubly linked list
