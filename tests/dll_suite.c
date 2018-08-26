@@ -148,13 +148,17 @@ void DLL_PushPopMiddle(CuTest * tc) {
 	CuAssertIntEquals(tc, list->length, 3);
 	CuAssertIntEquals(tc, *(int*)list->head->next->data, 333);
 	CuAssertPtrEquals(tc, list->head->next->next, list->tail);
+	CuAssertPtrEquals(tc, list->head->next, list->tail->prev);
+	CuAssertPtrEquals(tc, list->head, list->tail->prev->prev);
 
 	//now remove that item again
 	node = list->pop_behind(list, list->head);
 	CuAssertIntEquals(tc, list->length, 2);
 	CuAssertIntEquals(tc, *(int*)node->data, 333);
 	CuAssertPtrEquals(tc, node->next, NULL);
+	CuAssertPtrEquals(tc, node->prev, NULL);
 	CuAssertPtrEquals(tc, list->head->next, list->tail);
+	CuAssertPtrEquals(tc, list->head, list->tail->prev);
 
 	dll_delete(list);
 }

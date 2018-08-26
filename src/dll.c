@@ -103,6 +103,8 @@ static void dll_push_behind(struct dll * list, struct dll_node * behind, struct 
 		return dll_push_back(list, node);
 	}
 	node->next = behind->next;
+    node->prev = behind;
+    behind->next->prev = node;
 	behind->next = node;
 	list->length++;
 }
@@ -173,11 +175,15 @@ static struct dll_node * dll_pop_behind(struct dll * list, struct dll_node * beh
 	struct dll_node * node = behind->next;
 	if(node == list->tail) {
 		list->tail = behind;
-	}
+        list->tail->next = NULL;
+	}else{
+        node->next->prev = behind;
+    }
 
 	behind->next = node->next; //should be null in the above case that it is the tail
 	list->length--;
 	//reduce change to have acidental modification of items in the list
 	node->next = NULL;
+    node->prev = NULL;
 	return node;
 }
