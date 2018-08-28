@@ -7,7 +7,9 @@ CuSuite* ArgUtilGetSuite();
 CuSuite* FileUtilGetSuite();
 
 //All tests are executed from this function
-void RunAllTests(void) {
+int RunAllTests(void) {
+	int fail_count = 0;
+
 	CuString *sll_output = CuStringNew();
 	CuSuite* sll_suite = CuSuiteNew();
 
@@ -18,7 +20,7 @@ void RunAllTests(void) {
 	CuSuiteSummary(sll_suite, sll_output);
 	CuSuiteDetails(sll_suite, sll_output);
 	printf("%s\n", sll_output->buffer);
-
+	fail_count += sll_suite->failCount;
 	
 	CuString *dll_output = CuStringNew();
 	CuSuite* dll_suite = CuSuiteNew();
@@ -30,15 +32,18 @@ void RunAllTests(void) {
 	CuSuiteSummary(dll_suite, dll_output);
 	CuSuiteDetails(dll_suite, dll_output);
 	printf("%s\n", dll_output->buffer);
+	fail_count += dll_suite->failCount;
 
 	CuSuiteDelete(sll_suite);
 	CuStringDelete(sll_output);
 	CuSuiteDelete(dll_suite);
 	CuStringDelete(dll_output);
+
+	return fail_count;
 }
 
 
 
 int main(void) {
-	RunAllTests();
+	return RunAllTests();
 }

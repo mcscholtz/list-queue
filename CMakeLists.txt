@@ -1,5 +1,6 @@
-cmake_minimum_required (VERSION 3.10.2)
+cmake_minimum_required (VERSION 3.9.2)
 project (LinkedList)
+enable_testing()
 
 #compiler warnings
 if(MSVC)
@@ -58,3 +59,8 @@ TARGET_INCLUDE_DIRECTORIES(${TEST_EXE} PRIVATE
 
 #Link to the static libraries built above
 TARGET_LINK_LIBRARIES( ${TEST_EXE} ${LL_LIB} ${TEST_LIB} )
+
+#Add tests
+add_test(
+  NAME ${EXECUTABLE_OUTPUT_PATH}/${TEST_EXE}
+  COMMAND ${TEST_EXE})
