@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/mcscholtz/cll.svg?branch=master)](https://travis-ci.org/mcscholtz/cll)
 # Linked Lists in C
 ## Build
 ```bash
