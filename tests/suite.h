@@ -2,6 +2,6 @@
 #define __SUITE_H
 #include "cutest.h"
 
-int execute(CuSuite* test);
+int execute(void(*test)(CuTest *tc));
 
 #endif

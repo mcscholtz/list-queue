@@ -1,6 +1,7 @@
 #include "cutest.h"
+#include <stdio.h>
 
-int execute(CuSuite* test)
+int execute(void(*test)(CuTest *tc))
 {
     CuSuite* suite = CuSuiteNew();
 	SUITE_ADD_TEST(suite, test);
