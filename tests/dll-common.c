@@ -162,14 +162,3 @@ void DLL_PushPopMiddle(CuTest * tc) {
 
 	dll_delete(list);
 }
-
-CuSuite* DoubleLinkedListSuite() {
-	CuSuite* suite = CuSuiteNew();
-	SUITE_ADD_TEST(suite, DLL_CreateList);
-	SUITE_ADD_TEST(suite, DLL_CreateIntNode);
-	SUITE_ADD_TEST(suite, DLL_CreateStringNode);
-	SUITE_ADD_TEST(suite, DLL_PushPopFrontAndBack);
-	SUITE_ADD_TEST(suite, DLL_PushPopMiddle);
-
-	return suite;
-}
