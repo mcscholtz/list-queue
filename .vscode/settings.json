@@ -4,7 +4,10 @@
         "stdlib.h": "c",
         "cutest.h": "c",
         "setjmp.h": "c",
-        "sll_suite.h": "c"
+        "sll_suite.h": "c",
+        "dll_suite.h": "c",
+        "suite.h": "c",
+        "sll-suite.h": "c"
     },
     "C_Cpp.configurationWarnings": "Disabled"
 }

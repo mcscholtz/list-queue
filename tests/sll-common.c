@@ -139,7 +139,7 @@ void SLL_PushPopMiddle(CuTest * tc) {
 
 	sll_delete(list);
 }
-
+/*
 CuSuite* SingleLinkedListSuite() {
 	CuSuite* suite = CuSuiteNew();
 	SUITE_ADD_TEST(suite, SLL_CreateList);
@@ -150,3 +150,4 @@ CuSuite* SingleLinkedListSuite() {
 
 	return suite;
 }
+*/
