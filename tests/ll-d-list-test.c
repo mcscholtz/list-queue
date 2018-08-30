@@ -42,7 +42,7 @@ void ll_d_list(CuTest * tc)
 
                 //TODO: (MAKE this a function) get the node @ that index
                 struct ln * r_node = list->head;
-                for(int i = 0; i < r2; i++) {
+                for(int j = 0; j < r2; j++) {
                     r_node = DNEXT(r_node);
                 }
 
@@ -83,7 +83,7 @@ void ll_d_list(CuTest * tc)
 
                 //TODO: (MAKE this a function) get the node @ that index
                 struct ln * r_node = list->head;
-                for(int i = 0; i < r2; i++) {
+                for(int j = 0; j < r2; j++) {
                     r_node = DNEXT(r_node);
                 }
 
