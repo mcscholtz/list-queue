@@ -9,4 +9,4 @@ compiler:
 script:
  - cmake .
  - cmake --build . -- -j2
- - ctest
+ - ctest -j2

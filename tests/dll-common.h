@@ -7,5 +7,6 @@ void DLL_PushPopMiddle(CuTest * tc);
 void DLL_PushPopFrontAndBack(CuTest * tc);
 void DLL_CreateStringNode(CuTest *tc);
 void DLL_CreateIntNode(CuTest *tc);
+void DLL_Smoke(CuTest *tc);
 
 #endif

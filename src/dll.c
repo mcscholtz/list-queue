@@ -170,7 +170,7 @@ static struct dll_node * dll_pop_behind(struct dll * list, struct dll_node * beh
 {
 	assert(list != NULL);
 	assert(behind != NULL);
-	assert(behind->next != NULL);
+	assert(behind->next != NULL && "Did you try to pop the item behind the tail?");
 
 	struct dll_node * node = behind->next;
 	if(node == list->tail) {

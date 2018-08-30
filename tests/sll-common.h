@@ -8,5 +8,6 @@ void SLL_CreateIntNode(CuTest *tc);
 void SLL_CreateStringNode(CuTest *tc);
 void SLL_PushPopFrontAndBack(CuTest * tc);
 void SLL_PushPopMiddle(CuTest * tc);
+void SLL_Smoke(CuTest * tc);
 
 #endif

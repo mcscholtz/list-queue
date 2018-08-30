@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 void DLL_CreateList(CuTest *tc) {
 	//create empty list
@@ -161,4 +162,96 @@ void DLL_PushPopMiddle(CuTest * tc) {
 	CuAssertPtrEquals(tc, list->head, list->tail->prev);
 
 	dll_delete(list);
+}
+
+void DLL_Smoke(CuTest * tc){
+	const int LOOPS = 10000000;
+	//randomly add and remove nodes all over the place
+	struct dll * list = dll_new();
+	srand(time(NULL));   // should only be called once
+	for(int i = 0; i < LOOPS; i++){
+		int val = rand();
+		struct dll_node * node  = dll_new_node(&val, sizeof(val));
+		int r = rand();
+		switch(r % 5){
+			case 0:
+				list->push_back(list, node);
+				break;
+			case 1:
+				list->push_front(list, node);
+				break;
+			default:
+				{
+					if(list->length == 0) {
+						i--;
+						continue;
+					}
+					//Find a random node in the list (only select from the top 10 to keep the test fast)
+					int k, h;
+					do{
+						k = rand() + 1;
+						h = list->length;
+						if(h > 10){
+							h = (rand() % 10) + 1;
+						}
+					}while(k < h);
+					k = k % h;
+					
+					struct dll_node * n = list->head;
+					int j;
+					for(j = 0; j < k;j++){
+						n = n->next;
+					}
+					//Once we have the random node, insert the new node behind it
+					list->push_behind(list, n, node);
+					break;
+				}
+		}
+	}
+	CuAssertIntEquals(tc, list->length, LOOPS);
+
+	//now randomly delete nodes
+	for(int i = 0; i < LOOPS; i++) {
+		int val = rand();
+		struct dll_node * node;
+		int r = rand();
+		switch(r % 5){
+			case 0:
+				node = list->pop_back(list);
+				break;
+			case 1:
+				node = list->pop_front(list);
+				break;
+			default:
+				{
+					
+					if(list->length < 10) {
+						i--;
+						continue;
+					}
+					//Find a random node in the list
+					int k, h;
+					do{
+						k = rand() + 1;
+						h = list->length;
+						if(h > 10){
+							h = (rand() % 10) + 1;
+						}
+					}while(k < h);
+					k = k % h;
+
+					struct dll_node * n = list->head;
+					int j;
+					for(j = 0; j < k;j++){
+						n = n->next;
+					}
+					
+					//Once we have the random node, insert the new node behind it
+					node = list->pop_behind(list, n);
+					break;
+				}
+		}
+		dll_delete_node(node);
+	}
+	CuAssertIntEquals(tc, list->length, 0);
 }
