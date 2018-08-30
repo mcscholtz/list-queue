@@ -17,7 +17,6 @@ ADD_LIBRARY( ${TEST_LIB} STATIC ${TESTLIB_SOURCES} )
 set (TEST_SOURCE_DIR ${CMAKE_SOURCE_DIR}/tests)
 set (TEST_SOURCES 
     ${TEST_SOURCE_DIR}/suite.c
-    ${TEST_SOURCE_DIR}/sll-common.c
     ${TEST_SOURCE_DIR}/dll-common.c
 )
 
