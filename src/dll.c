@@ -38,6 +38,7 @@ void dll_delete(struct dll * list)
 		dll_delete_node(node);
 		node = next;
 	} 
+	free(list);
 }
 
 struct dll_node * dll_new_node(void * data, int length)

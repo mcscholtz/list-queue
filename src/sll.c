@@ -38,6 +38,7 @@ void sll_delete(struct sll * list)
 		sll_delete_node(node);
 		node = next;
 	} 
+	free(list);
 }
 
 struct sll_node * sll_new_node(void * data, int length)
