@@ -7,7 +7,9 @@
         "sll_suite.h": "c",
         "dll_suite.h": "c",
         "suite.h": "c",
-        "sll-suite.h": "c"
+        "sll-suite.h": "c",
+        "dll.h": "c",
+        "stdint.h": "c"
     },
     "C_Cpp.configurationWarnings": "Disabled"
 }
