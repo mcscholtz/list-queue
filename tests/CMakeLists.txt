@@ -22,7 +22,7 @@ set (TEST_SOURCES
 )
 
 #Build each test source file
-set (TEST_REGEX ${CMAKE_SOURCE_DIR}/tests/*-test.c)
+set (TEST_REGEX ${CMAKE_SOURCE_DIR}/tests/ll-*-test.c)
 file(GLOB files ${TEST_REGEX})
 foreach(file ${files})
   #Use the filenames as the test names

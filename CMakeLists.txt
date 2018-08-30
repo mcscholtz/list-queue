@@ -8,6 +8,7 @@ include(LinkedList.cmake)
 set (LL_SOURCES 
     ${PROJECT_SOURCE_DIR}/sll.c
     ${PROJECT_SOURCE_DIR}/dll.c
+    ${PROJECT_SOURCE_DIR}/ll.c
 )
 
 #Add the linked list library as static

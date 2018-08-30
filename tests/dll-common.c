@@ -160,12 +160,13 @@ void DLL_PushPopMiddle(CuTest * tc) {
 	CuAssertPtrEquals(tc, node->prev, NULL);
 	CuAssertPtrEquals(tc, list->head->next, list->tail);
 	CuAssertPtrEquals(tc, list->head, list->tail->prev);
+	dll_delete_node(node);
 
 	dll_delete(list);
 }
 
 void DLL_Smoke(CuTest * tc){
-	const int LOOPS = 10000000;
+	const int LOOPS = 10000;
 	//randomly add and remove nodes all over the place
 	struct dll * list = dll_new();
 	srand(time(NULL));   // should only be called once
@@ -184,6 +185,7 @@ void DLL_Smoke(CuTest * tc){
 				{
 					if(list->length == 0) {
 						i--;
+						dll_delete_node(node);
 						continue;
 					}
 					//Find a random node in the list (only select from the top 10 to keep the test fast)
@@ -202,6 +204,12 @@ void DLL_Smoke(CuTest * tc){
 					for(j = 0; j < k;j++){
 						n = n->next;
 					}
+					
+					if(n == NULL){
+						i--;
+						continue;
+					}
+
 					//Once we have the random node, insert the new node behind it
 					list->push_behind(list, n, node);
 					break;
@@ -245,6 +253,14 @@ void DLL_Smoke(CuTest * tc){
 					for(j = 0; j < k;j++){
 						n = n->next;
 					}
+
+					if(n == NULL){
+						i--;
+						continue;
+					}else if(n->next == NULL){
+						i--;
+						continue;
+					}
 					
 					//Once we have the random node, insert the new node behind it
 					node = list->pop_behind(list, n);
@@ -254,4 +270,5 @@ void DLL_Smoke(CuTest * tc){
 		dll_delete_node(node);
 	}
 	CuAssertIntEquals(tc, list->length, 0);
+	dll_delete(list);
 }

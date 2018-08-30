@@ -137,18 +137,22 @@ void SLL_PushPopMiddle(CuTest * tc) {
 	CuAssertIntEquals(tc, *(int*)node->data, 333);
 	CuAssertPtrEquals(tc, node->next, NULL);
 	CuAssertPtrEquals(tc, list->head->next, list->tail);
+	sll_delete_node(node);
 
 	sll_delete(list);
 }
 
 void SLL_Smoke(CuTest * tc){
-	const int LOOPS = 100000;
+	const int LOOPS = 10000;
 	//randomly add and remove nodes all over the place
 	struct sll * list = sll_new();
+	int created = 0;
+	int deleted = 0;
 	srand(time(NULL));   // should only be called once
 	for(int i = 0; i < LOOPS; i++){
 		int val = rand();
 		struct sll_node * node  = sll_new_node(&val, sizeof(val));
+		created++;
 		int r = rand();
 		switch(r % 5){
 			case 0:
@@ -161,6 +165,7 @@ void SLL_Smoke(CuTest * tc){
 				{
 					if(list->length == 0) {
 						i--;
+						sll_delete_node(node);
 						continue;
 					}
 					//Find a random node in the list (only select from the top 10 to keep the test fast)
@@ -222,12 +227,23 @@ void SLL_Smoke(CuTest * tc){
 						n = n->next;
 					}
 					
+					if(n == NULL){
+						i--;
+						continue;
+					}else if(n->next == NULL){
+						i--;
+						continue;
+					}
+
 					//Once we have the random node, pop the node behind it
 					node = list->pop_behind(list, n);
 					break;
 				}
 		}
 		sll_delete_node(node);
+		deleted++;
 	}
 	CuAssertIntEquals(tc, list->length, 0);
+	CuAssertIntEquals(tc, created, deleted);
+	sll_delete(list);
 }
