@@ -11,7 +11,7 @@ if(MSVC)
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   # Update if necessary
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
-  string(APPEND CMAKE_C_FLAGS " -Wall -Wextra -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wjump-misses-init -Wdouble-promotion -Wshadow -Wformat=2 -pedantic")
+  string(APPEND CMAKE_C_FLAGS " -Wall -Wextra -Wlogical-op -Wjump-misses-init -Wdouble-promotion -Wshadow -Wformat=2 -pedantic")
 elseif(CMAKE_COMPILER_IS_CLANG)
   string(APPEND CMAKE_C_FLAGS " -Weverything")
 
