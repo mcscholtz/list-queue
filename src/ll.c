@@ -6,6 +6,9 @@
 #include <stdio.h>
 
 //Internal Functions
+static void * ll_front(struct ll * list);
+static void * ll_back(struct ll * list);
+
 static void ll_push_front(struct ll * list, struct ln * node);
 static struct ln * ll_pop_front(struct ll * list);
 
@@ -14,6 +17,7 @@ static struct ln * ll_pop_back(struct ll * list);
 
 static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * node);
 static struct ln * ll_pop_behind(struct ll * list, struct ln * behind);
+
 struct ll * ll_new(LL_TYPE type)
 {
 	assert(type != SINGLE || type != DOUBLE);
@@ -23,10 +27,16 @@ struct ll * ll_new(LL_TYPE type)
 	list->tail = NULL;
 	list->length = 0;
     list->type = type;
+
+    list->front = ll_front;
+    list->back = ll_back;
+
     list->push_front = ll_push_front;
     list->pop_front = ll_pop_front;
+
     list->push_back = ll_push_back;
     list->pop_back = ll_pop_back;
+
     list->push_behind = ll_push_behind;
     list->pop_behind = ll_pop_behind;
     if(type == SINGLE){
@@ -103,6 +113,20 @@ void ll_delete_node(struct ln * node) {
 	free(node->data);
     free(node->link);
 	free(node);
+}
+
+static void * ll_front(struct ll * list)
+{
+    assert(list != NULL);
+    assert(list->length > 0);
+    return list->head->data;
+}
+
+static void * ll_back(struct ll * list)
+{
+    assert(list != NULL);
+    assert(list->length > 0);
+    return list->tail->data;
 }
 
 //This function assumes it gets the right node type

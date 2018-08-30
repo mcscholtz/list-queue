@@ -12,13 +12,25 @@ struct ll {
 	struct ln * head;
 	struct ln * tail;
 	int length;
+	int datasize;
     LL_TYPE type;
+	//Peek
+	//Returns the pointer to the data of the head
+	void * (*front)(struct ll * list);
+	//Returns the pointer to the data of the tail
+	void * (*back)(struct ll * list);
+	//Returns the pointer to the data at the index
+	void * (*at)(struct ll * list, int index);
+	//Push
 	void (*push_front)(struct ll * list, struct ln * node);
 	void (*push_back)(struct ll * list, struct ln * node);
 	void (*push_behind)(struct ll * list, struct ln * behind, struct ln * node);
+	void (*push_at)(struct ll * list, int index, struct ln * node);
+	//Pop
 	struct ln * (*pop_front)(struct ll * list);
 	struct ln * (*pop_back)(struct ll * list);
 	struct ln * (*pop_behind)(struct ll * list, struct ln * node);
+	struct ln * (*pop_at)(struct ll * list, int index);
 };
 
 
