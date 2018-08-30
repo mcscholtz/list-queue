@@ -1,6 +1,11 @@
 #ifndef LL_H
 #define LL_H
 
+//Helper Macros
+#define DNEXT(node) (((struct d_link *)node->link)->next)
+#define DPREV(node) (((struct d_link *)node->link)->prev)
+#define SNEXT(node) (((struct s_link *)node->link)->next)
+
 typedef enum  { SINGLE, DOUBLE } LL_TYPE;
 
 struct ll {

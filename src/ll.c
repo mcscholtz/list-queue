@@ -5,11 +5,6 @@
 
 #include <stdio.h>
 
-//Internal Helper Macros
-#define DNEXT(node) (((struct d_link *)node->link)->next)
-#define DPREV(node) (((struct d_link *)node->link)->prev)
-#define SNEXT(node) (((struct s_link *)node->link)->next)
-
 //Internal Functions
 static void ll_push_front(struct ll * list, struct ln * node);
 static struct ln * ll_pop_front(struct ll * list);
@@ -17,6 +12,8 @@ static struct ln * ll_pop_front(struct ll * list);
 static void ll_push_back(struct ll * list, struct ln * node);
 static struct ln * ll_pop_back(struct ll * list);
 
+static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * node);
+static struct ln * ll_pop_behind(struct ll * list, struct ln * behind);
 struct ll * ll_new(LL_TYPE type)
 {
 	assert(type != SINGLE || type != DOUBLE);
@@ -30,6 +27,8 @@ struct ll * ll_new(LL_TYPE type)
     list->pop_front = ll_pop_front;
     list->push_back = ll_push_back;
     list->pop_back = ll_pop_back;
+    list->push_behind = ll_push_behind;
+    list->pop_behind = ll_pop_behind;
     if(type == SINGLE){
     //    list->push_front = dll_push_front;
     //    list->push_back = dll_push_back;
@@ -213,4 +212,57 @@ static struct ln * ll_pop_back(struct ll * list)
 		list->length--;
 		return node;
 	}
+}
+
+//insert a node behind the givin node
+static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * node)
+{
+	assert(list != NULL);
+	assert(behind != NULL);
+	assert(node != NULL);
+
+	if(behind == list->tail) {
+		return ll_push_back(list, node);
+	}
+    if(list->type == SINGLE){
+        SNEXT(node) = SNEXT(behind);
+        SNEXT(behind) = node;
+    }else{
+        DNEXT(node) = DNEXT(behind);
+        DPREV(node) = behind;
+        DPREV(DNEXT(behind)) = node;
+        DNEXT(behind) = node;
+    }
+	list->length++;
+}
+
+static struct ln * ll_pop_behind(struct ll * list, struct ln * behind)
+{
+	assert(list != NULL && "The list you are trying to pop from is NULL") ;
+	assert(behind != NULL && "The node you are trying to pop from behind is NULL");
+	assert(behind != list->tail && "Did you try to pop the item behind the tail?");
+
+	struct ln * node;
+    if(list->type == SINGLE){
+        node = SNEXT(behind);
+        if(node == list->tail) {
+		    list->tail = behind;
+	    }
+        SNEXT(behind) = SNEXT(node);
+        SNEXT(node) = NULL;
+    }else{
+        node = DNEXT(behind);
+        if(node == list->tail) {
+		    list->tail = behind;
+            DNEXT(list->tail) = NULL;
+        }else{
+            DPREV(DNEXT(node)) = behind;
+        }
+        DNEXT(behind) = DNEXT(node);
+        DNEXT(node) = NULL;
+        DPREV(node) = NULL;
+    }
+	list->length--;
+
+	return node;
 }
