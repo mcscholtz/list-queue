@@ -12,27 +12,55 @@ make
 
 ## Use in your Code
 ```c
-#include "sll.h"
-...
-struct sll * list = sll_new();
+#include "ll.h"
+
+struct ll * list = ll_new(DOUBLE); //Create a doubly linked list
 int somedata = 1;
-struct sll_node * node = sll_new_node(&somedata, sizeof(somedata));
-
-list->push_back(list, node);
-assert(list->length == 1);
-
-node = list->pop_front(list);
-assert(list->length == 0);
-
-sll_delete_node(node);
-sll_delete(list); //This will also free all items in the list if there are any
+struct ln * node = ll_new_node(&somedata, sizeof(somedata)); //internally copy data from somedata
+...
+//Do stuff with the node and list, see supported opperations below
+...
+ll_delete_node(node);
+ll_delete(list); //This will also free all items in the list if there are any left
 ```
-For more examples see the [tests](https://github.com/mcscholtz/cll/blob/master/tests/ll_suite.c)
+## Supported opperations
+Both the singly and doubly lists support the following oppperations:
+### push_front & pop_front
+```c
+list->push_front(list, node);
+struct ln * node2 = list->pop_front(list);
+```
+### push_back / pop_back
+```c
+list->push_back(list, node);
+struct ln * node2 = list->pop_back(list);
+```
+### push_behind / pop_behind (Push or pop the node behind the given node)
+```c
+list->push_behind(list, behind, node);
+struct ln * node2 = list->pop_behind(list, node);
+```
+### push_at / pop_at (Push or pop the node at the given index)
+```c
+list->push_at(list, 1, node);
+struct ln * node2 = list->pop_at(list, 1);
+```
+## foreach (Apply function to each element in the list function signature: `void func(void * element)`
+```c
+void add5(void * element)
+{
+    *(int *)element += 5;
+}
+...
+list->foreach(list,add5); //adds 5 to each element in the list
+```
+### front / back / at (Directly return the pointer to the data of the requested node)
+```c
+int * a = (int *)list->front(list);
+*a = 123;
+int * b = (int *)list->at(list, 0); //At index 0 is the same as front
+assert(123 == *b);
+...
 
-The code is made to be as generic as possible. When actually using it I suggest you change the void pointer in the node struct to the data type of your choice, that will remove a lot of boilerplate code and potential errors by avoiding void pointers.
-
-## Todo
-- [x] Add singly linked list
-- [x] Add tests for single linked list
-- [x] Add doubly linked list
-- [x] Add tests for doubly linked list
+```
+For more examples look at the [tests](https://github.com/mcscholtz/cll/blob/master/tests/)
