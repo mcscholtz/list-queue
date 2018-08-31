@@ -62,7 +62,8 @@ struct ll * ll_new(LL_TYPE type)
 
 void ll_delete(struct ll * list)
 {
-	assert(list->type != SINGLE || list->type != DOUBLE);
+	assert(list != NULL && "The list is NULL");
+    assert(list->type != SINGLE || list->type != DOUBLE);
     struct ln * node = list->head;
 	struct ln * next;
     if(list->type == SINGLE) {
@@ -99,7 +100,7 @@ struct ln * ll_new_node(void * data, int length, LL_TYPE type)
     }
 
 	node->data = malloc(length);
-	assert(node->data != NULL);
+	assert(node->data != NULL && "Out of memory");
 	memcpy(node->data, data, length);
 	return node;
 }
@@ -115,15 +116,15 @@ void ll_delete_node(struct ln * node) {
 
 static void * ll_front(struct ll * list)
 {
-    assert(list != NULL);
-    assert(list->length > 0);
+    assert(list != NULL && "The list is NULL");
+    assert(list->length > 0 && "The list does not have enough elements");
     return list->head->data;
 }
 
 static void * ll_back(struct ll * list)
 {
-    assert(list != NULL);
-    assert(list->length > 0);
+    assert(list != NULL && "The list is NULL");
+    assert(list->length > 0 && "The list does not have enough elements");
     return list->tail->data;
 }
 
@@ -136,8 +137,8 @@ static void * ll_at(struct ll * list, int index)
 //This function assumes it gets the right node type
 static void ll_push_front(struct ll * list, struct ln * node)
 {
-	assert(list != NULL);
-	assert(node != NULL);
+	assert(list != NULL && "The list is NULL");
+	assert(node != NULL && "The node you are trying to push is NULL");
 
 	if (list->head == NULL) {
 		list->head = node;
@@ -157,7 +158,7 @@ static void ll_push_front(struct ll * list, struct ln * node)
 
 static struct ln * ll_pop_front(struct ll * list)
 {
-	assert(list != NULL);
+	assert(list != NULL && "The list is NULL");
 	
 	//empty list
 	if (list->head == NULL) {
@@ -188,8 +189,8 @@ static struct ln * ll_pop_front(struct ll * list)
 
 static void ll_push_back(struct ll * list, struct ln * node)
 {
-	assert(list != NULL);
-	assert(node != NULL);
+	assert(list != NULL && "The list is NULL");
+	assert(node != NULL && "The node you are trying to push is NULL");
 
 	if (list->tail == NULL) {
 		list->head = node;
@@ -208,7 +209,7 @@ static void ll_push_back(struct ll * list, struct ln * node)
 
 static struct ln * ll_pop_back(struct ll * list)
 {
-	assert(list != NULL);
+	assert(list != NULL && "The list is NULL");
 
 	//empty list
 	if (list->tail == NULL) {
@@ -245,9 +246,9 @@ static struct ln * ll_pop_back(struct ll * list)
 //insert a node behind the givin node
 static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * node)
 {
-	assert(list != NULL);
-	assert(behind != NULL);
-	assert(node != NULL);
+	assert(list != NULL && "The list is NULL");
+	assert(behind != NULL && "The node you are trying to push behind is NULL");
+	assert(node != NULL && "The node you are trying to push is NULL");
 
 	if(behind == list->tail) {
 		ll_push_back(list, node);
@@ -267,7 +268,7 @@ static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * nod
 
 static struct ln * ll_pop_behind(struct ll * list, struct ln * behind)
 {
-	assert(list != NULL && "The list you are trying to pop from is NULL") ;
+	assert(list != NULL && "The list is NULL");
 	assert(behind != NULL && "The node you are trying to pop from behind is NULL");
 	assert(behind != list->tail && "Did you try to pop the item behind the tail?");
 
@@ -317,11 +318,10 @@ static struct ln * ll_pop_at(struct ll * list, int index)
 
 static struct ln * ll_find_node_at(struct ll * list, int index)
 {
-    assert(list != NULL && "The list you are trying to pop from is NULL") ;
+    assert(list != NULL && "The list is NULL");
 	assert(index < list->length && "The index is out of range");
     struct ln * n;
     if(index == list->length-1){
-        printf("tail @ index: %d\n", index);
         n = list->tail;
     }else{
         if(list->type == SINGLE){
@@ -354,6 +354,7 @@ static struct ln * ll_find_node_at(struct ll * list, int index)
 
 static void ll_foreach(struct ll * list, void (*func)(void * element))
 {
+    assert(list != NULL && "The list is NULL");
     struct ln * node = list->head;
     if(list->type == SINGLE){
         while(node != NULL){
