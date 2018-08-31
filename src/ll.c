@@ -25,6 +25,8 @@ static struct ln * ll_pop_behind(struct ll * list, struct ln * behind);
 static void ll_push_at(struct ll * list, int index, struct ln * node);
 static struct ln * ll_pop_at(struct ll * list, int index);
 
+static void ll_foreach(struct ll * list, void (*func)(void * element));
+
 struct ll * ll_new(LL_TYPE type)
 {
 	assert(type != SINGLE || type != DOUBLE);
@@ -51,6 +53,8 @@ struct ll * ll_new(LL_TYPE type)
     list->push_at = ll_push_at;
     list->pop_at = ll_pop_at;
     
+    list->foreach = ll_foreach;
+
 	return list;
 }
 
@@ -346,4 +350,21 @@ static struct ln * ll_find_node_at(struct ll * list, int index)
         }
     }
     return n;
+}
+
+static void ll_foreach(struct ll * list, void (*func)(void * element))
+{
+    struct ln * node = list->head;
+    if(list->type == SINGLE){
+        while(node != NULL){
+            func(node->data);
+            node = SNEXT(node);
+        }
+    }
+    else{
+        while(node != NULL){
+            func(node->data);
+            node = DNEXT(node);
+        }
+    }
 }

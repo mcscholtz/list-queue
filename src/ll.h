@@ -31,6 +31,8 @@ struct ll {
 	struct ln * (*pop_back)(struct ll * list);
 	struct ln * (*pop_behind)(struct ll * list, struct ln * node);
 	struct ln * (*pop_at)(struct ll * list, int index);
+
+	void (*foreach)(struct ll * list, void (*func)(void * element));
 };
 
 
