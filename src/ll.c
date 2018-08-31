@@ -8,6 +8,7 @@
 //Internal Functions
 static void * ll_front(struct ll * list);
 static void * ll_back(struct ll * list);
+static void * ll_at(struct ll * list, int index);
 
 static void ll_push_front(struct ll * list, struct ln * node);
 static struct ln * ll_pop_front(struct ll * list);
@@ -30,6 +31,7 @@ struct ll * ll_new(LL_TYPE type)
 
     list->front = ll_front;
     list->back = ll_back;
+    list->at = ll_at;
 
     list->push_front = ll_push_front;
     list->pop_front = ll_pop_front;
@@ -127,6 +129,41 @@ static void * ll_back(struct ll * list)
     assert(list != NULL);
     assert(list->length > 0);
     return list->tail->data;
+}
+
+static void * ll_at(struct ll * list, int index)
+{
+    assert(list != NULL);
+    assert(index <= list->length);
+    if(index == list->length){
+        return list->tail->data;
+    }
+    struct ln * node;
+    if(list->type == SINGLE){
+        node = list->head;
+        //Walk the list to the index
+        for(int i = 0; i < index; i++) {
+            node = SNEXT(node);
+        }
+    }else{
+        //check if it is faster to go from back or front
+        if(index > list->length/2){
+            //go from back
+            node = list->tail;
+            //Walk the list to the index
+            for(int i = list->length-1; i > index; i--) {
+                node = DPREV(node);
+            }
+        }else{
+            //go from front
+            node = list->head;
+            //Walk the list to the index
+            for(int i = 0; i < index; i++) {
+                node = DNEXT(node);
+            }
+        }
+    }
+    return node->data;
 }
 
 //This function assumes it gets the right node type
@@ -290,3 +327,4 @@ static struct ln * ll_pop_behind(struct ll * list, struct ln * behind)
 
 	return node;
 }
+
