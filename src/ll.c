@@ -6,6 +6,9 @@
 #include <stdio.h>
 
 //Internal Functions
+static struct ln * ll_find_node_at(struct ll * list, int index);
+
+//Forward Declerations
 static void * ll_front(struct ll * list);
 static void * ll_back(struct ll * list);
 static void * ll_at(struct ll * list, int index);
@@ -18,6 +21,9 @@ static struct ln * ll_pop_back(struct ll * list);
 
 static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * node);
 static struct ln * ll_pop_behind(struct ll * list, struct ln * behind);
+
+static void ll_push_at(struct ll * list, int index, struct ln * node);
+static struct ln * ll_pop_at(struct ll * list, int index);
 
 struct ll * ll_new(LL_TYPE type)
 {
@@ -41,22 +47,10 @@ struct ll * ll_new(LL_TYPE type)
 
     list->push_behind = ll_push_behind;
     list->pop_behind = ll_pop_behind;
-    if(type == SINGLE){
-    //    list->push_front = dll_push_front;
-    //    list->push_back = dll_push_back;
-    //    list->push_behind = dll_push_behind;
-    //    list->pop_front = dll_pop_front;
-    //    list->pop_back = dll_pop_back;
-    //    list->pop_behind = dll_pop_behind;
-    }else{
+
+    list->push_at = ll_push_at;
+    list->pop_at = ll_pop_at;
     
-    //    list->push_back = dll_push_back;
-     //   list->push_behind = dll_push_behind;
-    //    list->pop_front = dll_pop_front;
-    //    list->pop_back = dll_pop_back;
-    //    list->pop_behind = dll_pop_behind;
-    }
-	
 	return list;
 }
 
@@ -86,8 +80,6 @@ void ll_delete(struct ll * list)
     }
 	free(list);
 }
-
-
 
 struct ln * ll_new_node(void * data, int length, LL_TYPE type)
 {
@@ -133,37 +125,8 @@ static void * ll_back(struct ll * list)
 
 static void * ll_at(struct ll * list, int index)
 {
-    assert(list != NULL);
-    assert(index <= list->length);
-    if(index == list->length){
-        return list->tail->data;
-    }
-    struct ln * node;
-    if(list->type == SINGLE){
-        node = list->head;
-        //Walk the list to the index
-        for(int i = 0; i < index; i++) {
-            node = SNEXT(node);
-        }
-    }else{
-        //check if it is faster to go from back or front
-        if(index > list->length/2){
-            //go from back
-            node = list->tail;
-            //Walk the list to the index
-            for(int i = list->length-1; i > index; i--) {
-                node = DPREV(node);
-            }
-        }else{
-            //go from front
-            node = list->head;
-            //Walk the list to the index
-            for(int i = 0; i < index; i++) {
-                node = DNEXT(node);
-            }
-        }
-    }
-    return node->data;
+    struct ln * n = ll_find_node_at(list, index);
+    return n->data;
 }
 
 //This function assumes it gets the right node type
@@ -329,3 +292,58 @@ static struct ln * ll_pop_behind(struct ll * list, struct ln * behind)
 	return node;
 }
 
+static void ll_push_at(struct ll * list, int index, struct ln * node)
+{
+    struct ln * n = ll_find_node_at(list, index-1);
+    if(n == list->tail) {
+        ll_push_back(list, node);
+        return;
+    }
+    ll_push_behind(list, n, node);
+}
+
+static struct ln * ll_pop_at(struct ll * list, int index)
+{
+    struct ln * n = ll_find_node_at(list, index-1);
+    if(n == list->tail) {
+        return ll_pop_back(list);
+    }
+    return ll_pop_behind(list,n);
+}
+
+static struct ln * ll_find_node_at(struct ll * list, int index)
+{
+    assert(list != NULL && "The list you are trying to pop from is NULL") ;
+	assert(index < list->length && "The index is out of range");
+    struct ln * n;
+    if(index == list->length-1){
+        printf("tail @ index: %d\n", index);
+        n = list->tail;
+    }else{
+        if(list->type == SINGLE){
+            n = list->head;
+            //Walk the list to find the node before the index
+            for(int i = 0; i < index; i++) {
+                n = SNEXT(n);
+            }
+        }else{
+            //check if it is faster to go from back or front
+            if(index > list->length/2){
+                //go from back
+                n = list->tail;
+                //Walk the list to the index-1
+                for(int i = list->length-1; i > index; i--) {
+                    n = DPREV(n);
+                }
+            }else{
+                //go from front
+                n = list->head;
+                //Walk the list to the index-1
+                for(int i = 0; i < index; i++) {
+                    n = DNEXT(n);
+                }
+            }
+        }
+    }
+    return n;
+}
