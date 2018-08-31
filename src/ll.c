@@ -283,7 +283,8 @@ static void ll_push_behind(struct ll * list, struct ln * behind, struct ln * nod
 	assert(node != NULL);
 
 	if(behind == list->tail) {
-		return ll_push_back(list, node);
+		ll_push_back(list, node);
+        return;
 	}
     if(list->type == SINGLE){
         SNEXT(node) = SNEXT(behind);

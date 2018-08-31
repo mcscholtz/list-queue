@@ -14,8 +14,7 @@ void ll_d_list(CuTest * tc)
     
     //populate list
     for(int i = 0; i < LOOPS; i++){
-        int val = i;
-        struct ln * node = ll_new_node(&val,sizeof(val),DOUBLE);
+        struct ln * node = ll_new_node(&i,sizeof(i),DOUBLE);
         int r1,r2;
         if(list->length > 2) {
             r1 = rand() % 3;
@@ -55,7 +54,6 @@ void ll_d_list(CuTest * tc)
 
     //remove items
     for(int i = LOOPS; i > 0; i--){
-        int val = i;
         struct ln * node;
         int r1,r2;
         if(list->length > 5) {

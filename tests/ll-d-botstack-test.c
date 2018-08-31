@@ -9,15 +9,13 @@ void ll_d_botstack(CuTest * tc)
     struct ll * list = ll_new(DOUBLE);
     
     for(int i = 0; i < LOOPS; i++){
-        int val = i;
-        struct ln * node = ll_new_node(&val,sizeof(val),DOUBLE);
+        struct ln * node = ll_new_node(&i,sizeof(i),DOUBLE);
         
         list->push_back(list, node);
         CuAssertIntEquals(tc, list->length, i+1);
     }
 
     for(int i = LOOPS; i > 0; i--){
-        int val = i;
         struct ln * node = list->pop_back(list);
         CuAssertIntEquals(tc, list->length, i-1);
         ll_delete_node(node);
