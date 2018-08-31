@@ -6,10 +6,8 @@ git clone --recurse-submodules https://github.com/mcscholtz/cll.git
 cd cll
 cmake .
 make
+ctest
 ```
-## Run the Tests
-`./build/tests`
-
 ## Use in your Code
 ```c
 #include "ll.h"
