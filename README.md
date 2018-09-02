@@ -23,7 +23,7 @@ ll_delete(list); //This will also free all items in the list if there are any le
 ```
 ## Supported opperations
 Both the singly and doubly lists support the following oppperations:
-### push_front & pop_front
+### push_front / pop_front
 ```c
 list->push_front(list, node);
 struct ln * node2 = list->pop_front(list);
@@ -62,3 +62,7 @@ assert(123 == *b);
 
 ```
 For more examples look at the [tests](https://github.com/mcscholtz/cll/blob/master/tests/)
+## TODO
+- [ ] Add concat function
+- [ ] Add split function
+- [ ] Add sort function
