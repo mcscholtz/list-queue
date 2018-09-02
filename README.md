@@ -54,9 +54,9 @@ list->foreach(list,add5); //adds 5 to each element in the list
 ```
 ### front / back / at (Directly return the pointer to the data of the requested node)
 ```c
-int * a = (int *)list->front(list);
+int * a = list->front(list);
 *a = 123;
-int * b = (int *)list->at(list, 0); //At index 0 is the same as front
+int * b = list->at(list, 0); //At index 0 is the same as front
 assert(123 == *b);
 ...
 
