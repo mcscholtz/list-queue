@@ -17,7 +17,7 @@ void ll_d_at(CuTest * tc)
 
     //validate nodes with at function
     for(int i = 0; i < LOOPS; i++){
-        int *j = (int *)list->at(list,i);
+        int *j = list->at(list,i);
         CuAssertIntEquals(tc, i, *j);
     }
 

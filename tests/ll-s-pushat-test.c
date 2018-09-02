@@ -23,10 +23,10 @@ void ll_s_pushat(CuTest * tc)
     //validate nodes with at function
     for(int i = 0; i < LOOPS; i++){
         if(i < 1){
-            int *j = (int *)list->at(list,i);
+            int *j = list->at(list,i);
             CuAssertIntEquals(tc, i, *j);
         }else{
-            int *j = (int *)list->at(list,i);
+            int *j = list->at(list,i);
             CuAssertIntEquals(tc, LOOPS - i, *j);
         }
     }

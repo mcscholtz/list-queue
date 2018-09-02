@@ -9,7 +9,8 @@
         "suite.h": "c",
         "sll-suite.h": "c",
         "dll.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "time.h": "c"
     },
     "C_Cpp.configurationWarnings": "Disabled"
 }

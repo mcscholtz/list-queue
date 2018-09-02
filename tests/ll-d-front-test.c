@@ -15,12 +15,12 @@ void ll_d_front(CuTest * tc)
         list->push_front(list, node);
         
         //Get the value from the head of the list
-        int * f = (int *)list->front(list);
+        int * f = list->front(list);
         CuAssertIntEquals(tc, i, *f);
         
         //change the value of data pointed to & validated that it changed
         *f = -123;
-        f = (int *)list->front(list);
+        f = list->front(list);
         CuAssertIntEquals(tc, -123, *f);
 
         CuAssertIntEquals(tc, list->length, i+1);
