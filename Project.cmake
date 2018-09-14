@@ -25,4 +25,4 @@ set (LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 set (PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src )
 
 #Name of that library
-SET( LL_LIB ll )
+SET( Q_LIB queue )

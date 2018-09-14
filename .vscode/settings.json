@@ -10,7 +10,9 @@
         "sll-suite.h": "c",
         "dll.h": "c",
         "stdint.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "ll.h": "c",
+        "queue.h": "c"
     },
     "C_Cpp.configurationWarnings": "Disabled"
 }

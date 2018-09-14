@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.9.2)
-project (LinkedListTests)
+project (QueueTests)
 enable_testing()
-include(../LinkedList.cmake)
+include(../Project.cmake)
 
 #Test Lib Source
 set (TESTLIB_SOURCE_DIR ${CMAKE_SOURCE_DIR}/3rdparty/cutest)
@@ -20,7 +20,7 @@ set (TEST_SOURCES
 )
 
 #Build each test source file
-set (TEST_REGEX ${CMAKE_SOURCE_DIR}/tests/ll-*-test.c)
+set (TEST_REGEX ${CMAKE_SOURCE_DIR}/tests/*-test.c)
 file(GLOB files ${TEST_REGEX})
 foreach(file ${files})
   #Use the filenames as the test names
@@ -36,7 +36,7 @@ foreach(file ${files})
   )
   
   #Link libraries
-  TARGET_LINK_LIBRARIES( ${TEST_EXE} ${LL_LIB} ${TEST_LIB} )
+  TARGET_LINK_LIBRARIES( ${TEST_EXE} ${Q_LIB} ${TEST_LIB} )
   
   #Add tests
   add_test(
